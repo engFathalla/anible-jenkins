@@ -1,0 +1,5 @@
+---
+nginx_ubuntu_html_path: /var/www/html
+nginx_redhat_html_path: /usr/share/nginx/html/
+nginx_pkg: nginx
+

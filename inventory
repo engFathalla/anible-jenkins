@@ -1,0 +1,9 @@
+[webservers]
+node01         ansible_user=ubuntu
+node02         ansible_user=ec2-user
+
+[jenkins-server]
+node02     ansible_root=ec2-user
+
+
+

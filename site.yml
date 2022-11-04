@@ -1,0 +1,15 @@
+---
+- name: webserver play
+  hosts: webservers
+  tasks:
+  roles:
+    - webserver
+
+- name: jenkins play
+  hosts: jenkins-server
+  tasks:
+  roles:
+    - jenkins
+
+
+

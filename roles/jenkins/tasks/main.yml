@@ -1,0 +1,42 @@
+- name: Download Long Term Jenkins release
+  get_url:
+    url: "{{ pkg_url }}"
+    dest: "{{ repo_dest }}"
+  when:
+    - ansible_distribution == "RedHat"
+
+- name: Import jenkins key from url
+  ansible.builtin.rpm_key:
+    state: present
+    key: "{{ jenkins_key }}"
+  when:
+    - ansible_distribution == "RedHat"
+
+- name: yum update
+  yum:
+    name: '*'
+    state: latest
+  when:
+    - ansible_distribution == "RedHat"
+
+- name: Install java
+  yum:
+    name: "{{ java_pkg }}"
+    state: present
+  when:
+    - ansible_distribution == "RedHat"
+
+- name: Install jenkins
+  yum:
+    name: "{{ jenkins_pkg  }}"
+    state: present
+  when:
+    - ansible_distribution == "RedHat"
+
+- name: Start jenkins
+  ansible.builtin.systemd:
+    name: "{{ jenkins_pkg  }}"
+    state: started
+  when:
+    - ansible_distribution == "RedHat"
+

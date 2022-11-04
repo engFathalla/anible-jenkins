@@ -1,0 +1,55 @@
+---
+- name: install nginx on ubuntu
+  apt:
+    name: "{{ nginx_pkg }}"
+    state: present
+    update_cache: yes
+  when:
+    -  ansible_distribution == "Ubuntu"
+
+
+- name: install nginx on redhat
+  yum:
+    name: "{{ nginx_pkg }}"
+    state: present
+    update_cache: yes
+  when:
+    - ansible_distribution == "RedHat" 
+
+- name: Start service nginx RedHat
+  service:
+    name: "{{ nginx_pkg }}"
+    state: started
+  when:
+    - ansible_distribution == "RedHat"
+
+- name: Start service nginx Ubuntu
+  service:
+    name: "{{ nginx_pkg }}"
+    state: started
+  when:
+    -  ansible_distribution == "Ubuntu" 
+
+
+- name: copy html Ubuntu
+  template:
+    src: index.html
+    dest: "{{ nginx_ubuntu_html_path }}"
+    mode: 0644
+  when:
+    - ansible_distribution == "Ubuntu"
+  notify:
+  - restart "{{ nginx_pkg }}"
+
+
+- name: copy html RedHat
+  template:
+    src: index.html
+    dest: nginx_redhat_html_path
+    mode: 0644
+  when:
+   - ansible_distribution == "RedHat"
+  notify:
+  - restart "{{ nginx_pkg }}"
+
+
